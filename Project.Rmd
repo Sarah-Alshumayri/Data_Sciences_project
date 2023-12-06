@@ -42,7 +42,7 @@ Understanding the intricate relationship between various lifestyle and health fa
 
 \section{Data}
 
-\section{Analysis}
+\section{Analysis} 
 
 \section{Result}
 \section{References}
