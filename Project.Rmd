@@ -42,6 +42,32 @@ Understanding the intricate relationship between various lifestyle and health fa
 
 \section{Data}
 
+\textbf{Unit of Observation}
+\newline The unit of observation in this dataset is an individual person. Each row represents data for one individual, with various attributes related to their demographics, lifestyle, and health.
+Outcome Variable
+The outcome variable appears to be related to sleep health, which can be represented by 'Sleep Duration', 'Quality of Sleep', or 'Sleep Disorder'.
+\begin{enumerate}
+
+ \item \textbf{Sleep Duration:} Measured in hours per night.
+ \item \textbf{Quality of Sleep:} Rated on a scale (exact scale not specified in the preview).
+ \item \textbf{Sleep Disorder:} Categorical variable indicating the type of sleep disorder, if any.
+\newline Source: Presumably collected from individuals health records.
+\newline Distribution: This will be described using a graph and a table.
+\end{enumerate}
+
+Predictor Variables
+Predictor variables include 'Gender', 'Age', 'Occupation', 'Physical Activity Level', 'Stress Level', 'BMI Category', 'Blood Pressure', 'Heart Rate', and 'Daily Steps'.
+These are measured as categorical (e.g., Gender, Occupation, BMI Category), ordinal (e.g., Quality of Sleep), or continuous variables (e.g., Age, Blood Pressure).
+Source: Likely sourced from individual surveys or health examinations.
+Distribution: This will be depicted using tables and graphs for each variable.
+Potential Issues with the Data
+Missingness: Need to check for missing values in the dataset.
+Lack of Variation/Availability: Some categories may have limited representation.
+Potential Sources of Bias: Biases may arise if the sample is not representative of the general population.
+Overcoming/Mitigating Issues
+Missing Data: Employ imputation techniques or analyze only complete cases.
+Lack of Variation: Acknowledge limitations in the diversity of the dataset.
+Bias: Use statistical methods to account for potential biases or clearly state the limitations of the study.
 \section{Analysis} 
 
 \section{Result}
@@ -57,14 +83,14 @@ Understanding the intricate relationship between various lifestyle and health fa
 
 ```{r loading libraries, include=FALSE}
 #loading libraries
-library()
-library()
-library()
-library()
-library()
-library()
-library()
-library()
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(caret)
+library(RANN)
+library(skimr)
+library(ggplot2)
+library(stringr)
 library()
 ```
 
