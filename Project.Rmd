@@ -1,0 +1,86 @@
+---
+title: "Sleep Disorder Analysis: Unveiling the Interplay Between Lifestyle Health and Sleep Quality"
+author: "Sarah Alshumayri, Reema Abdallah, Yehya Asseri"
+date: "2023-12-04"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+This project aims to understand the impact of lifestyle and health factors on sleep quality and disorders.
+\newline This project compiles data including metrics related to sleep duration, sleep quality, physical activity, stress levels, BMI categories, blood pressure, heart rate, and daily steps. We aim to use data visualization and statistical analysis methods to investigate the variables that significantly affect sleep health. Preliminary analysis may reveal insights such as the correlation between physical activity, stress levels, and sleep quality, but the project will also explore more complex relationships and potential predictors of sleep disorders.
+\newline The rest of the report is organized as follows: section 2 provides a background on the importance of sleep health and its relationship with lifestyle factors, section 3 presents the research question and problem statement that the report aims to answer, section 4 discusses the data used in this project, its sources, and provides a brief overview of the contents of each dataset, section 5 analyzes those datasets and offers a statistical view of the data, section 6 presents the findings of the project, section 7 discusses the implications of these findings and their potential applications, and section 8 concludes the report with a summary of the key insights and suggestions for future research.
+
+
+\section{Background}
+
+Sleep quality, a critical factor for health and well-being, is influenced by a multitude of factors, including occupational hazards, lifestyle choices, and individual behaviors. In certain professions, such as long-distance heavy goods vehicle (HGV) drivers, the combination of demanding work schedules and poor lifestyle choices leads to increased risks of chronic diseases and reduced life expectancy [2]. This is compounded by inadequate sleep, which is linked to an increased risk of accidents and comorbidities [2].
+
+Sleep behavior is also influenced by demographic, occupational, and lifestyle factors. For instance, sleep efficiency and duration are known to decrease with age, and this is a significant concern in professions with an aging workforce [3]. Similarly, in athletes, optimal sleep is critical for performance, but factors such as training and competition times, travel, stress, and use of stimulants like caffeine can lead to substantial variation in sleep onset and offset times [1].
+
+The most important factor influencing sleep efficiency is bedtime and low variability in sleep onset times [2]. Regular sleepers tend to exhibit consistent sleep onset and offset times compared to irregular sleepers. However, achieving this regularity can be challenging due to training schedules and other commitments [2].
+
+For elite athletes, the biological bases of sleep, driven by homeostatic drive and the circadian clock, are relatively stable. However, sleep regularity can be significantly affected by external factors such as training schedules, psychological stress, and societal influences. These factors impact sleep regularity and highlight the importance of modifying behaviors that can lead to poor sleep quality and duration [4].
+
+
+
+\section{Research Question and Problem Statement}
+
+Can machine learning models effectively identify key lifestyle and health factors influencing sleep quality?
+
+Understanding the intricate relationship between various lifestyle and health factors and their impact on sleep quality and disorders is essential for developing effective health interventions. Traditional analytical methods may not fully capture the complex interactions and nonlinear relationships between these factors. This research aims to leverage the capabilities of machine learning models to analyze a comprehensive dataset encompassing demographic, occupational, physical activity, stress levels, and health indicators. The objective is to determine how these factors collectively influence sleep duration, quality, and the presence of sleep disorders. By evaluating the performance of various machine learning models, this study seeks to pinpoint the most significant factors affecting sleep health. The insights gained could provide valuable guidance for healthcare professionals and policymakers in formulating strategies to enhance sleep quality and address sleep-related issues in the population.
+
+\section{Data}
+
+\section{Analysis}
+
+\section{Result}
+\section{References}
+
+[1] S. L. Halson et al., "Sleep Regularity and Predictors of Sleep Efficiency and Sleep Duration in Elite Team Sport Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
+
+[2] R. Smith et al., "Sleep Patterns and Disorders Among Long-Distance HGV Drivers: A Concern for Road Safety," Transportation Research Part F: Traffic Psychology and Behaviour, vol. 77, pp. 1-14, 2021.
+
+[3] R. Smith et al., "Occupational Factors Affecting Sleep Health of HGV Drivers," Safety and Health at Work, vol. 12, no. 4, pp. 500-507, 2021.
+
+[4] S. L. Halson et al., "The Impact of Training and Competition on Sleep Patterns of Elite Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
+
+```{r loading libraries, include=FALSE}
+#loading libraries
+library()
+library()
+library()
+library()
+library()
+library()
+library()
+library()
+library()
+```
+
+
+```{r include=FALSE}
+#loading the data set
+Sleep_dataset <- read.csv('Data/Sleep_health_and_lifestyle_dataset.csv')
+# Display the first few rows of the dataset
+head(Sleep_dataset)
+# Summary of the dataset
+summary(Sleep_dataset)
+# Checking for missing values
+sum(is.na(Sleep_dataset))
+```
+
+```{r}
+
+```
+
