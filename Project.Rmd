@@ -42,45 +42,6 @@ Understanding the intricate relationship between various lifestyle and health fa
 
 \section{Data}
 
-\textbf{Unit of Observation}
-\newline The unit of observation in this dataset is an individual person. Each row represents data for one individual, with various attributes related to their demographics, lifestyle, and health.
-Outcome Variable
-The outcome variable appears to be related to sleep health, which can be represented by 'Sleep Duration', 'Quality of Sleep', or 'Sleep Disorder'.
-\begin{enumerate}
-
- \item \textbf{Sleep Duration:} Measured in hours per night.
- \item \textbf{Quality of Sleep:} Rated on a scale (exact scale not specified in the preview).
- \item \textbf{Sleep Disorder:} Categorical variable indicating the type of sleep disorder, if any.
-\newline Source: Presumably collected from individuals health records.
-\newline Distribution: This will be described using a graph and a table.
-\end{enumerate}
-
-Predictor Variables
-Predictor variables include 'Gender', 'Age', 'Occupation', 'Physical Activity Level', 'Stress Level', 'BMI Category', 'Blood Pressure', 'Heart Rate', and 'Daily Steps'.
-These are measured as categorical (e.g., Gender, Occupation, BMI Category), ordinal (e.g., Quality of Sleep), or continuous variables (e.g., Age, Blood Pressure).
-Source: Likely sourced from individual surveys or health examinations.
-Distribution: This will be depicted using tables and graphs for each variable.
-Potential Issues with the Data
-Missingness: Need to check for missing values in the dataset.
-Lack of Variation/Availability: Some categories may have limited representation.
-Potential Sources of Bias: Biases may arise if the sample is not representative of the general population.
-Overcoming/Mitigating Issues
-Missing Data: Employ imputation techniques or analyze only complete cases.
-Lack of Variation: Acknowledge limitations in the diversity of the dataset.
-Bias: Use statistical methods to account for potential biases or clearly state the limitations of the study.
-\section{Analysis} 
-
-\section{Result}
-\section{References}
-
-[1] S. L. Halson et al., "Sleep Regularity and Predictors of Sleep Efficiency and Sleep Duration in Elite Team Sport Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
-
-[2] R. Smith et al., "Sleep Patterns and Disorders Among Long-Distance HGV Drivers: A Concern for Road Safety," Transportation Research Part F: Traffic Psychology and Behaviour, vol. 77, pp. 1-14, 2021.
-
-[3] R. Smith et al., "Occupational Factors Affecting Sleep Health of HGV Drivers," Safety and Health at Work, vol. 12, no. 4, pp. 500-507, 2021.
-
-[4] S. L. Halson et al., "The Impact of Training and Competition on Sleep Patterns of Elite Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
-
 ```{r loading libraries, include=FALSE}
 #loading libraries
 library(tidyverse)
@@ -91,7 +52,6 @@ library(RANN)
 library(skimr)
 library(ggplot2)
 library(stringr)
-library()
 ```
 
 
@@ -106,7 +66,59 @@ summary(Sleep_dataset)
 sum(is.na(Sleep_dataset))
 ```
 
-```{r}
+\textbf{Unit of Observation}
 
-```
+The unit of observation in this dataset is an individual person. Each row represents data for one individual, with various attributes related to their demographics, lifestyle, and health.
+
+Outcome Variable
+
+The outcome variable appears to be related to sleep health, which can be represented by 'Quality of Sleep', or 'Sleep Disorder'.
+
+\begin{enumerate}
+
+ \item \textbf{Quality of Sleep:} Rated on a scale (exact scale not specified in the preview).
+ \item \textbf{Sleep Disorder:} Categorical variable indicating the type of sleep disorder, if any.
+
+\end{enumerate}
+
+ Source: Presumably collected from individuals health records https://data.world/andrewpyong/sleep-health.
+Distribution: This will be described using a graph and a table.
+
+
+\textbf{Predictor Variables:}
+Predictor variables include 'Gender', 'Age', 'Occupation', 'Physical Activity Level', 'Stress Level', 'BMI Category', 'Blood Pressure', 'Heart Rate', and 'Daily Steps'.
+These are measured as categorical (e.g., Gender, Occupation, BMI Category), ordinal (e.g., Quality of Sleep), or continuous variables (e.g., Age, Blood Pressure).
+
+ Source: Presumably collected from individuals health records https://data.world/andrewpyong/sleep-health.
+ Distribution: This will be depicted using tables and graphs for each variable.
+
+
+\textbf{Potential Issues with the Data:}
+When considering potential issues with the data, the primary concerns are the lack of variation in some categories and potential biases. For instance, certain occupations or BMI categories might have limited representation, which could affect the generalizability of the findings. Also, if the sample is not representative of the broader population (e.g., skewed towards a specific age group, or occupational category), it could introduce biases in the analysis.
+
+
+ To overcome or mitigate the issues of lack of variation and potential biases in your data analysis, a multifaceted approach can be adopted. Firstly, it's essential to transparently report the limitations of the study due to these factors. Acknowledging the specific areas where the dataset may not perfectly represent the broader population or where certain categories are underrepresented adds to the credibility of the research and aids in the accurate interpretation of the results. Alongside this, the implementation of regression techniques serves as a robust method to address imbalances in the dataset. By using logistic or linear regression models, it becomes possible to control for confounding variables, allowing for a more accurate isolation of the effects of primary predictors. This approach not only helps in drawing more reliable conclusions but also enhances the overall integrity of the analysis by systematically adjusting for known dataset limitations.
+
+
+
+\section{Analysis} 
+
+\section{Result}
+
+
+
+
+
+
+
+\section{References}
+
+[1] S. L. Halson et al., "Sleep Regularity and Predictors of Sleep Efficiency and Sleep Duration in Elite Team Sport Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
+
+[2] R. Smith et al., "Sleep Patterns and Disorders Among Long-Distance HGV Drivers: A Concern for Road Safety," Transportation Research Part F: Traffic Psychology and Behaviour, vol. 77, pp. 1-14, 2021.
+
+[3] R. Smith et al., "Occupational Factors Affecting Sleep Health of HGV Drivers," Safety and Health at Work, vol. 12, no. 4, pp. 500-507, 2021.
+
+[4] S. L. Halson et al., "The Impact of Training and Competition on Sleep Patterns of Elite Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
+
 
