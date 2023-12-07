@@ -103,6 +103,17 @@ When considering potential issues with the data, the primary concerns are the la
 
 \section{Analysis} 
 
+
+```{r}
+Sleep_dataset %>%
+  summarise(across(c(Sleep.Duration, Quality.of.Sleep, Physical.Activity.Level, 
+                     Stress.Level, Blood.Pressure.1, Blood.Pressure.2, 
+                     Heart.Rate, Daily.Steps, BMI.Levels),
+                   list(mean = ~mean(., na.rm = TRUE), 
+                        sd = ~sd(., na.rm = TRUE),
+                        median = ~median(., na.rm = TRUE))))
+```
+
 \section{Result}
 
 
