@@ -1,6 +1,6 @@
 ---
 title: "Sleep Disorder Analysis: Unveiling the Interplay Between Lifestyle Health and Sleep Quality"
-author: "Sarah Alshumayri, Reema Abdallah, Yehya Asseri"
+author: "Sarah Alshumayri S20106125, Reema Abdallah S20106463, Yehya Asseri S23108710"
 date: "2023-12-04"
 output:
   pdf_document:
@@ -45,13 +45,9 @@ Understanding the intricate relationship between various lifestyle and health fa
 ```{r loading libraries, include=FALSE}
 #loading libraries
 library(tidyverse)
-library(dplyr)
-library(readr)
 library(caret)
-library(RANN)
 library(skimr)
-library(ggplot2)
-library(stringr)
+library(gridExtra)
 ```
 
 
@@ -72,50 +68,174 @@ The unit of observation in this dataset is an individual person. Each row repres
 
 ## Outcome Variable
 
-- The outcome variable appears to be related to sleep health, which can be represented by 'Quality of Sleep', or 'Sleep Disorder'.
+The outcome variable is 'Sleep Disorder', which is a categorical variable that indicates the presence and type of sleep disorder such as insomnia, Sleep Apnea, or none an individual may have.
+As Figure 1 shows, the distribution of the outcome variable is illustrated in the graph and the frequency table below:
+```{r echo=FALSE}
+# Count the frequency of each sleep disorder category
+sleep_disorder_freq <- as.data.frame(table(Sleep_dataset$Sleep.Disorder))
+names(sleep_disorder_freq) <- c("Sleep.Disorder", "Count")
 
-\begin{enumerate}
-
- \item \textbf{Quality of Sleep:} Rated on a scale (exact scale not specified in the preview).
- \item \textbf{Sleep Disorder:} Categorical variable indicating the type of sleep disorder, if any.
-
-\end{enumerate}
-
- Source: Presumably collected from individuals health records https://data.world/andrewpyong/sleep-health.
-Distribution: This will be described using a graph and a table.
-
-
-\textbf{Predictor Variables:}
-Predictor variables include 'Gender', 'Age', 'Occupation', 'Physical Activity Level', 'Stress Level', 'BMI Category', 'Blood Pressure', 'Heart Rate', and 'Daily Steps'.
-These are measured as categorical (e.g., Gender, Occupation, BMI Category), ordinal (e.g., Quality of Sleep), or continuous variables (e.g., Age, Blood Pressure).
-
- Source: Presumably collected from individuals health records https://data.world/andrewpyong/sleep-health.
- Distribution: This will be depicted using tables and graphs for each variable.
+# Create a bar plot
+ggplot(sleep_disorder_freq, aes(x = reorder(Sleep.Disorder, -Count), y = Count, fill = Sleep.Disorder)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Distribution of Sleep Disorders",
+       x = "Sleep Disorder",
+       y = "Count") +
+  scale_fill_brewer(palette = "Pastel1") +
+  coord_flip() # Flip the coordinates for a horizontal bar plot
+```
+Figure 1. outcome variable 
 
 
-\textbf{Potential Issues with the Data:}
+## Predictor Variables
+
+Predictor variables include 'Gender', 'Age', 'Occupation', 'Physical Activity Level', 'Stress Level', 'Quality of Sleep', 'BMI Category', and 'Daily Steps'.
+
+These variables are measured through surveys or collected data from individuals health records
+The distribution of each predictor will be presented using descriptive statistics and visualizations. 
+
+Descriptive statistics for each variable:
+```{r echo=FALSE}
+library(knitr)
+
+# Calculating Descriptive Statistics
+descriptive_stats <- Sleep_dataset %>%
+  summarise(across(c(Age, Sleep.Duration, Quality.of.Sleep, Physical.Activity.Level, 
+                     Stress.Level, Blood.Pressure.1, Blood.Pressure.2, 
+                     Heart.Rate, Daily.Steps, BMI.Levels),
+                   list(mean = ~mean(., na.rm = TRUE), 
+                        sd = ~sd(., na.rm = TRUE),
+                        min = ~min(., na.rm = TRUE),
+                        max = ~max(., na.rm = TRUE)))) 
+
+```
+1. **Age:**
+  - Mean: 42 years
+  - Standard Deviation: 8 years
+  - Range: 27 to 59 years
+2. **Quality of Sleep:**
+  - Mean: 7
+  - Standard Deviation: 1
+  - Range: 4 to 9
+3. **Physical Activity Level:**
+  - Mean: 59
+  - Standard Deviation: 20
+  - Range: 30 to 90
+4. **Stress Level:**
+  - Mean: 5
+  - Standard Deviation: 1
+  - Range: 3 to 8
+5. **Daily Steps:**
+  - Mean: 6816
+  - Standard Deviation: 1617
+  - Range: 3000 to 10000
+6. **BMI Levels:**
+  - Mean: 1 
+  - Standard Deviation: 0.5
+  - Range: 1 to 3
+7. **Blood Pressure 1:**
+  - Mean: 128
+  - Standard Deviation: 7
+  - Range: 115 to 142
+8. **Blood Pressure 2:**
+  - Mean: 84
+  - Standard Deviation: 6
+  - Range: 75 to 95
+9. **Heart Rate:**
+  - Mean: 70
+  - Standard Deviation: 4
+  - Range: 65 to 86
+10. **Sleep Duration:**
+  - Mean: 7.1
+  - Standard Deviation: 0.79
+  - Range: 5.8 to 8.5
+  
+Figure 2 will show the histograms for each of these variables depict their distributions, revealing a wide array of values and suggesting a rich diversity within the dataset for these predictors. For example, 'Sleep Duration' displays a normal distribution, indicating a balanced spread of sleep duration across individuals in the dataset. 'Physical Activity Level' exhibits a broad range, reflecting varied levels of physical activity among participants. Such visualizations are instrumental in comprehending the distribution and central tendencies of the predictor variables, offering insights into patterns that may influence sleep health, like the correlation between 'Stress Level' and sleep quality or the impact of 'Daily Steps' on 'Heart Rate'.
+
+```{r echo=FALSE}
+
+# Sleep Duration
+p1 <- ggplot(Sleep_dataset, aes(x = Sleep.Duration)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black") +
+  ggtitle("Distribution of Sleep Duration") +
+  theme_minimal()
+
+# Quality of Sleep
+p2 <- ggplot(Sleep_dataset, aes(x = Quality.of.Sleep)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black") +
+  ggtitle("Distribution of Quality of Sleep") +
+  theme_minimal()
+
+# Physical Activity Level
+p3 <- ggplot(Sleep_dataset, aes(x = Physical.Activity.Level)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black") +
+  ggtitle("Distribution of Physical Activity Level") +
+  theme_minimal()
+
+# Stress Level
+p4 <- ggplot(Sleep_dataset, aes(x = Stress.Level)) +
+  geom_histogram(bins = 10, fill = "blue", color = "black") +
+  ggtitle("Distribution of Stress Level") +
+  theme_minimal()
+
+# Blood Pressure 1
+p5 <- ggplot(Sleep_dataset, aes(x = Blood.Pressure.1)) +
+  geom_histogram(bins = 10, fill = "blue", color = "black") +
+  ggtitle("Distribution of Blood Pressure 1") +
+  theme_minimal()
+
+# Blood Pressure 2
+p6 <- ggplot(Sleep_dataset, aes(x = Blood.Pressure.2)) +
+  geom_histogram(bins = 10, fill = "blue", color = "black") +
+  ggtitle("Distribution of Blood Pressure 2") +
+  theme_minimal()
+
+# Heart Rate
+p7 <- ggplot(Sleep_dataset, aes(x = Heart.Rate)) +
+  geom_histogram(bins = 10, fill = "blue", color = "black") +
+  ggtitle("Distribution of Heart Rate") +
+  theme_minimal()
+
+# Daily Steps
+p8 <- ggplot(Sleep_dataset, aes(x = Daily.Steps)) +
+  geom_histogram(bins = 10, fill = "blue", color = "black") +
+  ggtitle("Distribution of Daily Steps") +
+  theme_minimal()
+
+# BMI Levels
+p9 <- ggplot(Sleep_dataset, aes(x = BMI.Levels)) +
+  geom_histogram(bins = 3, fill = "blue", color = "black") +
+  ggtitle("Distribution of BMI Levels") +
+  theme_minimal()
+
+# Arrange the plots into a grid
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, p9, ncol = 3)
+
+```
+Figure 2. Predictor Variables
+
+## Potential Issues with the Data 
+
 When considering potential issues with the data, the primary concerns are the lack of variation in some categories and potential biases. For instance, certain occupations or BMI categories might have limited representation, which could affect the generalizability of the findings. Also, if the sample is not representative of the broader population (e.g., skewed towards a specific age group, or occupational category), it could introduce biases in the analysis.
 
-
+## Solutions to the issues
  To overcome or mitigate the issues of lack of variation and potential biases in your data analysis, a multifaceted approach can be adopted. Firstly, it's essential to transparently report the limitations of the study due to these factors. Acknowledging the specific areas where the dataset may not perfectly represent the broader population or where certain categories are underrepresented adds to the credibility of the research and aids in the accurate interpretation of the results. Alongside this, the implementation of regression techniques serves as a robust method to address imbalances in the dataset. By using logistic or linear regression models, it becomes possible to control for confounding variables, allowing for a more accurate isolation of the effects of primary predictors. This approach not only helps in drawing more reliable conclusions but also enhances the overall integrity of the analysis by systematically adjusting for known dataset limitations.
 
 
 
 \section{Analysis} 
 
-<<<<<<< HEAD
-
-```{r}
-=======
 ## Methods/Tools Explored
 
 In our project, we employed a variety of methods and tools to thoroughly analyze the "Sleep, Health, and Lifestyle" dataset. The primary tool used was R, renowned for its robust capabilities in data analysis, statistical computing, and graphical representation. This choice was driven by R's comprehensive support for data manipulation, visualization, and advanced analytics.
 
 ## Key R packages used included:
 
-- dplyr and tidyr: For efficient data manipulation and tidying.
-- ggplot2: For creating comprehensive and aesthetically pleasing visualizations.
-- caret: For streamlined data preprocessing and machine learning.
+- `tidyverse` Tidyverse includes `dplyr` and `ggplot2` for data manipulation and visualization.
+- `caret` and `randomForest` for machine learning and predictive modeling.
+- `skimr` for data summary and exploration.
+- `gridExtra` for arranging multiple plots on a grid
 
 The analysis included rigorous exploratory data analysis (EDA) to comprehend the data structure, identify missing values, and explore potential correlations among variables. Given the dataset's characteristics, Random Forest was chosen as the primary predictive modeling technique, valued for its effectiveness in handling numerous predictor variables and capturing complex data patterns.
 
@@ -127,31 +247,31 @@ The analysis followed these key stages:
 
 2. **Exploratory Data Analysis (EDA):**
 - Utilizing various visualization tools (like histograms, box plots, scatter plots) to understand variable distributions and relationships.
-```{r}
-ggplot(Sleep_dataset, aes(x = `Sleep.Duration`)) + geom_histogram()
-ggplot(Sleep_dataset, aes(x = `Sleep.Duration`, y = `Quality.of.Sleep`)) + geom_point()
-
-```
-
-- Summary statistics to capture central tendencies and dispersion in key variables.
-```{r}
-#Summary Statistics for Key Variables
->>>>>>> 3376e90b8d68a8f0bae3774734cb78890217986d
-Sleep_dataset %>%
-  summarise(across(c(Sleep.Duration, Quality.of.Sleep, Physical.Activity.Level, 
-                     Stress.Level, Blood.Pressure.1, Blood.Pressure.2, 
-                     Heart.Rate, Daily.Steps, BMI.Levels),
-                   list(mean = ~mean(., na.rm = TRUE), 
-                        sd = ~sd(., na.rm = TRUE),
-                        median = ~median(., na.rm = TRUE))))
-```
-
-<<<<<<< HEAD
-=======
 
 3. **Feature Engineering and Selection:**
 - Identifying crucial predictor variables via correlation analysis and initial model insights.
 - Crafting new features that could enhance model performance and interpretability.
+```{r include=FALSE}
+set.seed(100)
+
+trainRowNumbers <- createDataPartition(Sleep_dataset$Sleep.Disorder, p=0.8, list=FALSE)
+trainData <- Sleep_dataset[trainRowNumbers,]
+testData <- Sleep_dataset[-trainRowNumbers,]
+
+x = trainData[, 1:13] # predictor variables
+y = trainData$Sleep.Disorder#response variable
+```
+
+```{r echo=FALSE}
+
+featurePlot(x = trainData[, c(1, 3, 5:8, 10:13) ],
+            y = as.factor(trainData$Sleep.Disorder),  
+            plot = "density",
+            strip=strip.custom(par.strip.text=list(cex=.7)),
+            scales = list(x = list(relation="free"),
+                           y = list(relation="free")))
+
+```
 
 4- **Predictive Modeling with Random Forest:**
 - Building and training the Random Forest model.
@@ -169,8 +289,106 @@ Sleep_dataset %>%
 
 The approach was crafted to be accessible to readers with basic knowledge of R and machine learning, explaining each step with clarity and its rationale based on the dataset's nature and the research objectives. The methodology was selected to provide a comprehensive understanding of the dataset and to ensure the predictive modeling was both robust and interpretable.
 
->>>>>>> 3376e90b8d68a8f0bae3774734cb78890217986d
+
+
+
+```{r include=FALSE}
+skimmed <- skim_to_wide(trainData)
+
+```
+
+```{r include=FALSE}
+# Run algorithms using 10-fold cross validation
+trainData$Sleep.Disorder <- as.factor(trainData$Sleep.Disorder)
+control <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
+metric <- "Accuracy"
+```
+
+
+```{r include=FALSE}
+#Train model using RF
+set.seed(100)
+model_rf = train(Sleep.Disorder~., data = trainData, method ='rf', trControl = control, metric = metric)
+model_rf
+
+```
+
+
+```{r include=FALSE}
+# Train model using KNN
+model_kNN = train(Sleep.Disorder~., data = trainData, method ='knn', trControl = control, metric = metric)
+model_kNN
+```
+
+```{r include=FALSE}
+# Train model using SVM
+model_SVM = train(Sleep.Disorder~., data = trainData, method ='svmRadial', trControl = control, metric = metric)
+model_SVM
+```
+
+
+```{r include=FALSE}
+# Train model using LDA
+model_LDA = train(Sleep.Disorder~., data = trainData, method ='lda', trControl = control, metric = metric)
+model_LDA
+```
+
+```{r include=FALSE}
+models_compare <- resamples(list(RF=model_rf, kNN=model_kNN, SVMLinear=model_SVM, LDA=model_LDA))
+
+summary(models_compare)
+
+scales <- list(x=list(relation="free"), y=list(relation="free"))
+bwplot(models_compare, scales=scales)
+```
+
+```{r include=FALSE}
+predicted = predict(model_rf, testData)
+confusionMatrix(reference = as.factor(testData$Sleep.Disorder), data = predicted)
+
+predicted = predict(model_kNN, testData)
+confusionMatrix(reference = as.factor(testData$Sleep.Disorder), data = predicted)
+
+predicted = predict(model_SVM, testData)
+confusionMatrix(reference = as.factor(testData$Sleep.Disorder), data = predicted)
+
+predicted = predict(model_LDA, testData)
+confusionMatrix(reference = as.factor(testData$Sleep.Disorder), data = predicted)
+```
 \section{Result}
+
+## Summary of Results
+
+1. **Model Performance:**
+
+2. **Variable Importance:**
+
+3. **Insights from the Model:**
+
+# Discussion
+
+## Conclusions
+1. **Predictive Power of Variables:**
+
+2. **Model Effectiveness:**
+
+3. **Practical Implications:**
+
+## Limitations
+1. **Data Constraints:**
+
+2. **Model Limitations:**
+
+3. **Methodological Boundaries:**
+
+## Future Expansion & Recommendations
+
+1. **Incorporating Additional Data Sources:**
+
+2. **Exploring Alternative Models:**
+
+3. **Deeper Feature Engineering:**
+
 \section{References}
 
 [1] S. L. Halson et al., "Sleep Regularity and Predictors of Sleep Efficiency and Sleep Duration in Elite Team Sport Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
@@ -180,5 +398,3 @@ The approach was crafted to be accessible to readers with basic knowledge of R a
 [3] R. Smith et al., "Occupational Factors Affecting Sleep Health of HGV Drivers," Safety and Health at Work, vol. 12, no. 4, pp. 500-507, 2021.
 
 [4] S. L. Halson et al., "The Impact of Training and Competition on Sleep Patterns of Elite Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
-
-
