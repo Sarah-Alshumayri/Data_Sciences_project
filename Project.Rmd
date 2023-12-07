@@ -40,7 +40,7 @@ Can machine learning models effectively identify key lifestyle and health factor
 
 Understanding the intricate relationship between various lifestyle and health factors and their impact on sleep quality and disorders is essential for developing effective health interventions. Traditional analytical methods may not fully capture the complex interactions and nonlinear relationships between these factors. This research aims to leverage the capabilities of machine learning models to analyze a comprehensive dataset encompassing demographic, occupational, physical activity, stress levels, and health indicators. The objective is to determine how these factors collectively influence sleep duration, quality, and the presence of sleep disorders. By evaluating the performance of various machine learning models, this study seeks to pinpoint the most significant factors affecting sleep health. The insights gained could provide valuable guidance for healthcare professionals and policymakers in formulating strategies to enhance sleep quality and address sleep-related issues in the population.
 
-\section{Data}
+# Data
 
 ```{r loading libraries, include=FALSE}
 #loading libraries
@@ -66,13 +66,13 @@ summary(Sleep_dataset)
 sum(is.na(Sleep_dataset))
 ```
 
-\textbf{Unit of Observation}
+## Unit of Observation
 
 The unit of observation in this dataset is an individual person. Each row represents data for one individual, with various attributes related to their demographics, lifestyle, and health.
 
-Outcome Variable
+## Outcome Variable
 
-The outcome variable appears to be related to sleep health, which can be represented by 'Quality of Sleep', or 'Sleep Disorder'.
+- The outcome variable appears to be related to sleep health, which can be represented by 'Quality of Sleep', or 'Sleep Disorder'.
 
 \begin{enumerate}
 
@@ -103,14 +103,66 @@ When considering potential issues with the data, the primary concerns are the la
 
 \section{Analysis} 
 
+## Methods/Tools Explored
+
+In our project, we employed a variety of methods and tools to thoroughly analyze the "Sleep, Health, and Lifestyle" dataset. The primary tool used was R, renowned for its robust capabilities in data analysis, statistical computing, and graphical representation. This choice was driven by R's comprehensive support for data manipulation, visualization, and advanced analytics.
+
+## Key R packages used included:
+
+- dplyr and tidyr: For efficient data manipulation and tidying.
+- ggplot2: For creating comprehensive and aesthetically pleasing visualizations.
+- caret: For streamlined data preprocessing and machine learning.
+
+The analysis included rigorous exploratory data analysis (EDA) to comprehend the data structure, identify missing values, and explore potential correlations among variables. Given the dataset's characteristics, Random Forest was chosen as the primary predictive modeling technique, valued for its effectiveness in handling numerous predictor variables and capturing complex data patterns.
+
+## Detailed Analysis Outline
+The analysis followed these key stages:
+
+1. **Data Preprocessing and Cleaning:**
+- Encoding categorical variables and normalizing numeric data.
+
+2. **Exploratory Data Analysis (EDA):**
+- Utilizing various visualization tools (like histograms, box plots, scatter plots) to understand variable distributions and relationships.
+```{r}
+ggplot(Sleep_dataset, aes(x = `Sleep.Duration`)) + geom_histogram()
+ggplot(Sleep_dataset, aes(x = `Sleep.Duration`, y = `Quality.of.Sleep`)) + geom_point()
+
+```
+
+- Summary statistics to capture central tendencies and dispersion in key variables.
+```{r}
+#Summary Statistics for Key Variables
+Sleep_dataset %>%
+  summarise(across(c(Sleep.Duration, Quality.of.Sleep, Physical.Activity.Level, 
+                     Stress.Level, Blood.Pressure.1, Blood.Pressure.2, 
+                     Heart.Rate, Daily.Steps, BMI.Levels),
+                   list(mean = ~mean(., na.rm = TRUE), 
+                        sd = ~sd(., na.rm = TRUE),
+                        median = ~median(., na.rm = TRUE))))
+```
+
+
+3. **Feature Engineering and Selection:**
+- Identifying crucial predictor variables via correlation analysis and initial model insights.
+- Crafting new features that could enhance model performance and interpretability.
+
+4- **Predictive Modeling with Random Forest:**
+- Building and training the Random Forest model.
+- Tuning hyperparameters to optimize the model's performance.
+- Validating the model using cross-validation techniques.
+
+5. **Model Interpretation and Evaluation:**
+- Interpreting the model using feature importance scores and visualization tools like Partial Dependence Plots (PDP).
+- Evaluating the model's performance through metrics like accuracy, recall, precision, and the Area Under the Curve (AUC) for ROC analysis.
+
+6. **Validation and Testing:**
+-Assessing model robustness on a separate test set.
+- Using a range of performance metrics to ensure reliability and accuracy.
+
+
+The approach was crafted to be accessible to readers with basic knowledge of R and machine learning, explaining each step with clarity and its rationale based on the dataset's nature and the research objectives. The methodology was selected to provide a comprehensive understanding of the dataset and to ensure the predictive modeling was both robust and interpretable.
+
 \section{Result}
-
-
-
-
-
-
-
 \section{References}
 
 [1] S. L. Halson et al., "Sleep Regularity and Predictors of Sleep Efficiency and Sleep Duration in Elite Team Sport Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
