@@ -355,39 +355,78 @@ confusionMatrix(reference = as.factor(testData$Sleep.Disorder), data = predicted
 predicted = predict(model_LDA, testData)
 confusionMatrix(reference = as.factor(testData$Sleep.Disorder), data = predicted)
 ```
+
 \section{Result}
 
 ## Summary of Results
+The predictive analysis was conducted using a variety of machine learning models, including Random Forest (RF), K-Nearest Neighbors (kNN), Support Vector Machine (SVM), and Linear Discriminant Analysis (LDA). The models were trained on a dataset processed and partitioned into training and testing sets, with 10-fold cross-validation implemented to ensure robustness and reliability of the result
 
 1. **Model Performance:**
 
+- RF Model: Exhibited high accuracy, with a detailed confusion matrix and ROC curves indicating its effectiveness.
+
+- kNN Model: Showed notable precision and recall rates, as evidenced by its confusion matrix.
+
+- SVM Model: Demonstrated efficiency in classification, with strong accuracy and ROC curve performance.
+
+- LDA Model: Performed well in classifying different sleep disorder categories, backed by accuracy metrics.
+
+A comparative analysis of all models was provided, highlighting the most effective model for sleep disorder predict
+
 2. **Variable Importance:**
 
+Interpretable machine learning techniques identified key predictors for sleep disorders using the Random Forest model. Important variables included Sleep Duration, Quality of Sleep, among others. The influence of these variables on predictions was illustrated through Partial Dependence Plots (PDP) and Individual Conditional Expectation (ICE) plots, providing a clear visualization of their impact on the outcome.
+
 3. **Insights from the Model:**
+
+The models revealed significant insights, such as the relationship between stress levels and sleep disorders. These findings enhance the understanding of factors influencing sleep health and offer actionable insights.
 
 # Discussion
 
 ## Conclusions
+From the comprehensive analysis using machine learning models, several key conclusions emerge:
+
 1. **Predictive Power of Variables:**
+The study successfully identified crucial variables affecting sleep disorders. This highlights how factors like Sleep Duration and Stress Level play a significant role in sleep health.
 
 2. **Model Effectiveness:**
+Among the models, Random Forest stood out for its predictive accuracy. This underlines the model's capability to handle complex datasets with multiple predictors.
 
 3. **Practical Implications:**
+The findings provide actionable insights into sleep health, potentially guiding interventions or further research in sleep disorder management.
+
 
 ## Limitations
+Despite the analysis's thoroughness, the following limitations must be acknowledged:
+
 1. **Data Constraints:**
+ The dataset's scope, in terms of diversity and size, may limit the generalizability of the findings. The representativeness of the sample is crucial for broader applicability.
 
 2. **Model Limitations:**
+While Random Forest performed well, its complex nature and potential for overfitting should be considered. The interpretation of such models also presents challenges.
 
 3. **Methodological Boundaries:**
+The reliance on specific statistical techniques and machine learning models might have led to an oversight of more nuanced or intricate relationships within the dataset.
 
 ## Future Expansion & Recommendations
+Given more resources and time, the analysis could be expanded in the following ways:
 
 1. **Incorporating Additional Data Sources:**
+Including more diverse and extensive datasets could enhance the robustness and applicability of the findings.
 
 2. **Exploring Alternative Models:**
-
+ Employing different machine learning approaches might reveal additional insights or validate the current findings.
+ 
 3. **Deeper Feature Engineering:**
+Delving deeper into feature engineering and selection could uncover subtler patterns and relationships within the data.
+
+## Project Success
+Reflecting on the project's goals as outlined in the proposal:
+
+- The primary objective of identifying key predictors of sleep disorders and assessing the effectiveness of various models was achieved.
+- However, the project faced constraints in data diversity and model complexity, which may have impacted the depth of the findings.
+- Overall, the project succeeded in providing valuable insights into sleep disorders, although with the mentioned limitations and potential areas for further exploration.
+
 
 \section{References}
 
