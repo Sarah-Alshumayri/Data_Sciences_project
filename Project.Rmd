@@ -9,7 +9,6 @@ output:
   word_document: default
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(randomForest)
@@ -302,7 +301,7 @@ model_rf
 
 ```
 
-```{r}
+```{r include=FALSE}
 
 Sleep_dataset$Sleep.Disorder <- as.factor(Sleep_dataset$Sleep.Disorder)
 model <- randomForest(Sleep.Disorder ~ Age + Gender + Sleep.Duration +Quality.of.Sleep+Stress.Level+Physical.Activity.Level+BMI.Levels+Daily.Steps, data = Sleep_dataset)
@@ -372,26 +371,21 @@ The predictive analysis was conducted using a variety of machine learning models
 A comparative analysis of all models was provided, highlighting the most effective model for sleep disorder predict
 
 ```{r echo=FALSE}
-#needs just the Accuracy
-# Create a data frame with the summary of resamples statistics
-resample_stats <- data.frame(
-  Model = rep(c("RF", "kNN", "SVMLinear", "LDA"), each = 6),
-  Metric = rep(c("Accuracy", "Kappa"), each = 24),
-  Statistic = rep(c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max."), 4),
-  Value = c(0.8333333, 0.9000000, 0.9310345, 0.9214661, 0.9354839, 1.0000000,
-            0.7241379, 0.8333333, 0.8666667, 0.8691335, 0.9024194, 0.9677419,
-            0.7931034, 0.8666667, 0.9000000, 0.9001505, 0.9333333, 1.0000000,
-            0.8000000, 0.8688172, 0.9000000, 0.9043112, 0.9321839, 1.0000000,
-            0.6951220, 0.8168672, 0.8795006, 0.8608708, 0.8857980, 1.0000000,
-            0.4934498, 0.7016782, 0.7644495, 0.7701866, 0.8398392, 0.9426987,
-            0.6250000, 0.7401316, 0.8307888, 0.8220801, 0.8853789, 1.0000000,
-            0.6590909, 0.7722952, 0.8255814, 0.8308044, 0.8800595, 1.0000000),
-  NA.s = rep(c(0, 0, 0, 3), each = 6)
+# Create a data frame with the accuracy statistics for each model
+accuracy_stats <- data.frame(
+  Model = c("RF", "kNN", "SVMLinear", "LDA"),
+  Min = c(0.8333333, 0.7241379, 0.7931034, 0.8000000),
+  First_Qu = c(0.9000000, 0.8333333, 0.8666667, 0.8688172),
+  Median = c(0.9310345, 0.8666667, 0.9000000, 0.9000000),
+  Mean = c(0.9214661, 0.8691335, 0.9001505, 0.9043112),
+  Third_Qu = c(0.9354839, 0.9024194, 0.9333333, 0.9321839),
+  Max = c(1.0000000, 0.9677419, 1.0000000, 1.0000000)
 )
 
-
-# Create a knitr kable for each Metric
-accuracy_table <- knitr::kable(resample_stats[, -2], caption = "Summary of Accuracy Statistics", align = c('l', 'l', 'r', 'r'))
+# Use knitr to create a kable for a nice-looking table of accuracy statistics
+accuracy_table <- kable(accuracy_stats, 
+                        caption = "Accuracy Statistics for Each Model", 
+                        align = c('l', 'r', 'r', 'r', 'r', 'r', 'r'))
 
 # Print the table
 accuracy_table
