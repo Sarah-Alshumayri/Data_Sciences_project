@@ -11,13 +11,13 @@ Sleep Disorder Analysis: Unveiling the Interplay Between Lifestyle, Health, and 
 **Date:**
 Fall 2023
 
-##Overview
+**Overview**
 This project aims to explore and understand the intricate relationships between lifestyle choices, overall health, and the quality of sleep. Utilizing data analysis and predictive modeling, the project offers insights into how these factors interact and affect sleep disorders.
 
 
-##Components of the Project
+**Components of the Project**
 1. Sleep_health_and_lifestyle_dataset.csv
-This dataset forms the backbone of the analysis and model training. It contains data related to individual's sleep patterns, lifestyle choices, and health parameters.
+This dataset forms the backbone of the analysis and model training. It contains data related to an individual's sleep patterns, lifestyle choices, and health parameters.
 
 - Person ID: A unique identifier for each individual.
 - Gender: The gender of the individual.
@@ -39,12 +39,12 @@ An R Markdown document that details the analytical process, findings, and discus
 3. App.R
 A Shiny application developed in R for predicting sleep disorders. The app uses a trained model and allows users to input features such as age, gender, and sleep duration to predict the likelihood of sleep disorders.
 
-##Requirements
+**Requirements**
 - R Programming Language
 - R Libraries: shiny, data.table, randomForest, and others as required in the scripts.
 - RStudio (recommended for running Rmd and Shiny app)
 
-##How to Use
+**How to Use**
 1. Running the Analysis (Project.Rmd)
 
 - Open Project.Rmd in RStudio.
@@ -56,5 +56,5 @@ A Shiny application developed in R for predicting sleep disorders. The app uses 
 - Ensure all required libraries and the trained model file (model_RF.rds) are available.
 - Run the app to start the server, and interact with the UI to predict sleep disorders.
 
-##Contact
+**Contact**
 For any queries or further information, please contact Samalshumayri`@effat`.edu.sa
