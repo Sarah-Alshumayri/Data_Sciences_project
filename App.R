@@ -4,7 +4,7 @@ library(data.table)
 library(randomForest)
 
 # Load the trained model
-model <- readRDS("model_RF.rds") 
+model <- readRDS("model_RF.rds")
 
 #user interface
 
@@ -20,8 +20,10 @@ ui <- fluidPage(
       numericInput("quality_of_sleep", "Quality of Sleep (scale 4-9):", value = 4),
       numericInput("stress_level", "Stress Level (scale 3-8):", value = 3),
       numericInput("physical_activity_level", "Physical Activity Level (scale 30-90):", value = 30),
-      numericInput("bmi_levels", "BMI Levels:(1)Normal, (2) Overweight, (3) Obese",value = 1),
+      numericInput("bmi_levels", "BMI Levels:(1)Normal, (2) Overweight, (3) Obese", value = 1),
       numericInput("daily_steps", "Daily Steps:", value = 5000),
+      numericInput("blood_pressure_1", "Blood Pressure 1:", value = 120),
+      numericInput("blood_pressure_2", "Blood Pressure 2:", value = 80),
       
       actionButton("predict", "Predict")
     ),
@@ -45,6 +47,8 @@ server <- function(input, output) {
     Physical.Activity.Level <- input$physical_activity_level
     BMI.Levels <- input$bmi_levels
     Daily.Steps <- input$daily_steps
+    Blood.Pressure.1 <- input$blood_pressure_1
+    Blood.Pressure.2 <- input$blood_pressure_2
     
     # Create a data frame for prediction
     test <- data.frame(
@@ -55,7 +59,9 @@ server <- function(input, output) {
       Stress.Level = Stress.Level,
       Physical.Activity.Level = Physical.Activity.Level,
       BMI.Levels = BMI.Levels,
-      Daily.Steps = Daily.Steps
+      Daily.Steps = Daily.Steps,
+      Blood.Pressure.1 = Blood.Pressure.1,
+      Blood.Pressure.2 = Blood.Pressure.2
     )
     print(str(test))
     
@@ -63,12 +69,12 @@ server <- function(input, output) {
     Prediction <- predict(model, test)
     
     # Calculate probabilities
-    Probability <- predict(model, test, type = "response")
+    Probability <- predict(model, test, type = "prob")
     
     # Create a data frame to display results
     Output <- data.frame(
       Prediction = Prediction,
-      Probability = Probability
+      Probability = Probability * 100
     )
     print(Prediction)
     
@@ -91,7 +97,6 @@ server <- function(input, output) {
     }
   })
 }
-
 
 # Create the shiny app
 shinyApp(ui = ui, server = server)

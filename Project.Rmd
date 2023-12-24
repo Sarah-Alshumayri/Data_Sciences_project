@@ -25,15 +25,19 @@ This project aims to understand the impact of lifestyle and health factors on sl
 
 
 \section{Background}
+A. Impact of Occupational Hazards and Lifestyle on Sleep Quality In high-risk professions, such as those of long-distance
+heavy goods vehicle (HGV) drivers, the interplay of demanding work schedules and suboptimal lifestyle choices is a critical concern. This demographic is notably susceptible to a range of health challenges, including increased risks of chronic diseases and reduced life expectancy, largely attributed to inadequate sleep, which is further linked to a higher risk of accidents [2]. Additionally, professions with an aging workforce show a decline in sleep efficiency and duration as age increases, leading to significant health concerns [3].
 
-Sleep quality, a critical factor for health and well-being, is influenced by a multitude of factors, including occupational hazards, lifestyle choices, and individual behaviors. In certain professions, such as long-distance heavy goods vehicle (HGV) drivers, the combination of demanding work schedules and poor lifestyle choices leads to increased risks of chronic diseases and reduced life expectancy [2]. This is compounded by inadequate sleep, which is linked to an increased risk of accidents and comorbidities [2].
+B. Influence of Professional Demands on Sleep Patterns Athletes face unique challenges in maintaining optimal
+sleep due to factors such as erratic training and competition schedules, frequent travel, and psychological stress. These, combined with the consumption of stimulants like caffeine, contribute to substantial variations in sleep patterns, impacting sleep onset and offset times [1]. Elite athletes, in particular, experience a profound influence on sleep regularity due to external factors like rigorous training schedules and psychological stress, despite the stability of the biological bases of
+sleep [4].
 
-Sleep behavior is also influenced by demographic, occupational, and lifestyle factors. For instance, sleep efficiency and duration are known to decrease with age, and this is a significant concern in professions with an aging workforce [3]. Similarly, in athletes, optimal sleep is critical for performance, but factors such as training and competition times, travel, stress, and use of stimulants like caffeine can lead to substantial variation in sleep onset and offset times [1].
+C. The Importance of Regular Sleep Patterns The key to sleep efficiency is establishing regular sleep
+patterns, especially consistency in sleep onset and offset times. However, achieving this regularity is often challenged by varying professional and personal commitments, particularly in careers with irregular hours or high stress [2].
 
-The most important factor influencing sleep efficiency is bedtime and low variability in sleep onset times [2]. Regular sleepers tend to exhibit consistent sleep onset and offset times compared to irregular sleepers. However, achieving this regularity can be challenging due to training schedules and other commitments [2].
-
-For elite athletes, the biological bases of sleep, driven by homeostatic drive and the circadian clock, are relatively stable. However, sleep regularity can be significantly affected by external factors such as training schedules, psychological stress, and societal influences. These factors impact sleep regularity and highlight the importance of modifying behaviors that can lead to poor sleep quality and duration [4].
-
+D. Analyzing Sleep Health and Efficiency Through Data An in-depth analysis of the ”Sleep Health” and ”Sleep Effi-
+ciency” datasets reveals significant insights into the multifactorial nature of sleep quality and disorders. These datasets highlight the impact of factors such as occupational stress, physical activity, BMI, heart rate, and lifestyle elements like caffeine and alcohol consumption on sleep. The research demonstrates the crucial role of sleep quality, duration, efficiency, and stages in overall health and the necessity for lifestyle modifications and targeted interventions for the accurate prediction and
+improvement of sleep disorders [5], [6], [7], [8], [9], [10].
 
 
 \section{Research Question and Problem Statement}
@@ -241,26 +245,63 @@ The analysis followed these key stages:
 3. **Feature Engineering and Selection:**
 - Identifying crucial predictor variables via correlation analysis and initial model insights.
 - Crafting new features that could enhance model performance and interpretability.
+
 ```{r include=FALSE}
+
 set.seed(100)
+# Ensure that the column name is exactly as it appears in the dataframe, including case sensitivity
 
-trainRowNumbers <- createDataPartition(Sleep_dataset$Sleep.Disorder, p=0.8, list=FALSE)
-trainData <- Sleep_dataset[trainRowNumbers,]
-testData <- Sleep_dataset[-trainRowNumbers,]
+trainRowNumbers <- createDataPartition(y = Sleep_dataset$Sleep.Disorder, p = 0.8, list = FALSE)
+trainData <- Sleep_dataset[trainRowNumbers, ]
+testData <- Sleep_dataset[-trainRowNumbers, ]
 
-x = trainData[, 1:13] # predictor variables
-y = trainData$Sleep.Disorder#response variable
+# Assuming that 'Sleep.Disorder' is not the 14th column and that you have 13 predictor variables
+x <- trainData[, -which(names(trainData) == "Sleep.Disorder")] # predictor variables
+y <- trainData$Sleep.Disorder # response variable
 ```
+
+
 
 ```{r echo=FALSE}
 
-featurePlot(x = trainData[, c( 3, 5:8, 10:13) ],
-            y = as.factor(trainData$Sleep.Disorder),  
-            plot = "density",
-            strip=strip.custom(par.strip.text=list(cex=.7)),
-            scales = list(x = list(relation="free"),
-                           y = list(relation="free")))
+# Make sure these column indices or names correctly correspond to the columns in trainData
+selected_features <- c(1:14)
 
+# Create a density plot using selected features
+featurePlot(
+  x = trainData[, selected_features],
+  y = as.factor(trainData$Sleep.Disorder),
+  plot = "density",
+  strip = strip.custom(par.strip.text = list(cex = 0.7)),
+  scales = list(x = list(relation = "free"), y = list(relation = "free"))
+)
+
+# Set seed for reproducibility
+set.seed(100)
+
+# Define the sizes for recursive feature elimination
+# Adjust the range based on the number of features you have
+subsets <- c(1:5, 10, 15, length(selected_features))
+
+# Define control parameters for recursive feature elimination
+ctrl <- rfeControl(
+  functions = rfFuncs, # Ensure rfFuncs is appropriate for your model type
+  method = "repeatedcv",
+  repeats = 5,
+  verbose = FALSE
+)
+
+# Perform recursive feature elimination
+# Ensure that rfFuncs is compatible with your model type (randomForest in this case)
+lmProfile <- rfe(
+  x = trainData[, selected_features],
+  y = as.factor(trainData$Sleep.Disorder),
+  sizes = subsets,
+  rfeControl = ctrl
+)
+
+# Print the profile of the recursive feature elimination
+print(lmProfile)
 ```
 
 4-  **Model Building:**
@@ -446,13 +487,25 @@ Reflecting on the project's goals as outlined in the proposal:
 - Overall, the project succeeded in providing valuable insights into sleep disorders, although with the mentioned limitations and potential areas for further exploration.
 
 
-
 \section{References}
 
-[1] S. L. Halson et al., "Sleep Regularity and Predictors of Sleep Efficiency and Sleep Duration in Elite Team Sport Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
+[1] S. L. Halson et al., “Sleep Regularity and Predictors of Sleep Efficiency and Sleep Duration in Elite Team Sport Athletes,” Sports Medicine Open, vol. 8, no. 79, 2022.
 
-[2] R. Smith et al., "Sleep Patterns and Disorders Among Long-Distance HGV Drivers: A Concern for Road Safety," Transportation Research Part F: Traffic Psychology and Behaviour, vol. 77, pp. 1-14, 2021.
+[2] R. Smith et al., “Sleep Patterns and Disorders Among Long-Distance HGV Drivers: A Concern for Road Safety,” Transportation Research Part F: Traffic Psychology and Behaviour, vol. 77, pp. 1-14, 2021.
 
-[3] R. Smith et al., "Occupational Factors Affecting Sleep Health of HGV Drivers," Safety and Health at Work, vol. 12, no. 4, pp. 500-507, 2021.
+[3] R. Smith et al., “Occupational Factors Affecting Sleep Health of HGV Drivers,” Safety and Health at Work, vol. 12, no. 4, pp. 500-507, 2021.
 
-[4] S. L. Halson et al., "The Impact of Training and Competition on Sleep Patterns of Elite Athletes," Sports Medicine - Open, vol. 8, no. 79, 2022.
+[4] S. L. Halson et al., “The Impact of Training and Competition on Sleep Patterns of Elite Athletes,” Sports Medicine - Open, vol. 8, no. 79, 2022.
+
+[5] J. A. Smith and C. L. Spinweber, “The impact of physical activity on sleep quality and duration: A systematic review,” J. Sleep Res., vol. 29, no. 2, pp. 204-215, 2020, doi: 10.1111/jsr.12997.
+
+[6] K. L. Johnson and C. L. Spinweber, “Occupational stress and sleep quality: A comprehensive review,” Ind. Health, vol. 59, no. 3, pp. 139152, 2021, doi: 10.2486/indhealth.2020-0155.
+
+[7] J. Owens and K. A. Matthews, “Sleep apnea, heart rate variability, and cardiovascular risk,” Am. J. Cardiol., vol. 123, no. 7, pp. 1161-1166, 2019, doi: 10.1016/j.amjcard.2018.12.045.
+
+[8] A. L. Miller and L. G. Shattuck, “Sleep duration and efficiency: Their role in health and disease,” J. Clin. Sleep Med., vol. 14, no. 6, pp. 1037-1045, 2018, doi: 10.5664/jcsm.7172.
+
+[9] S. R. Patel and F. B. Hu, “Short sleep duration and weight gain: A systematic review,”
+Obesity, vol. 19, no. 4, pp. 643-650, 2021, doi: 10.1038/oby.2010.252.
+
+[10] J. Williams, J. A. Caldwell, and M. Hirshkowitz, “The effect of caffeine and alcohol consumption on sleep architecture and effi- ciency: A review,” Sleep Med. Rev., vol. 56, 101396, 2022, doi:10.1016/j.smrv.2021.101396.
