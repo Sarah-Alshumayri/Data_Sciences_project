@@ -260,6 +260,15 @@ x <- trainData[, -which(names(trainData) == "Sleep.Disorder")] # predictor varia
 y <- trainData$Sleep.Disorder # response variable
 ```
 
+```{r}
+# Dropping the 'Occupation' column from the training data
+trainData <- trainData[ , !(names(trainData) %in% c("Occupation"))]
+
+# Display the first few rows of the modified training dataset
+head(trainData)
+
+```
+```
 
 
 ```{r echo=FALSE}
