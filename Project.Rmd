@@ -249,18 +249,18 @@ The analysis followed these key stages:
 ```{r include=FALSE}
 
 set.seed(100)
-# Ensure that the column name is exactly as it appears in the dataframe, including case sensitivity
+
 
 trainRowNumbers <- createDataPartition(y = Sleep_dataset$Sleep.Disorder, p = 0.8, list = FALSE)
 trainData <- Sleep_dataset[trainRowNumbers, ]
 testData <- Sleep_dataset[-trainRowNumbers, ]
 
-# Assuming that 'Sleep.Disorder' is not the 14th column and that you have 13 predictor variables
+
 x <- trainData[, -which(names(trainData) == "Sleep.Disorder")] # predictor variables
 y <- trainData$Sleep.Disorder # response variable
 ```
 
-```{r}
+```{r include=FALSE }
 # Dropping the 'Occupation' column from the training data
 trainData <- trainData[ , !(names(trainData) %in% c("Occupation"))]
 
@@ -268,13 +268,10 @@ trainData <- trainData[ , !(names(trainData) %in% c("Occupation"))]
 head(trainData)
 
 ```
-```
-
 
 ```{r echo=FALSE}
 
-# Make sure these column indices or names correctly correspond to the columns in trainData
-selected_features <- c(1:14)
+selected_features <- c(3:7,9:12,14)
 
 # Create a density plot using selected features
 featurePlot(
@@ -288,20 +285,17 @@ featurePlot(
 # Set seed for reproducibility
 set.seed(100)
 
-# Define the sizes for recursive feature elimination
-# Adjust the range based on the number of features you have
 subsets <- c(1:5, 10, 15, length(selected_features))
 
 # Define control parameters for recursive feature elimination
 ctrl <- rfeControl(
-  functions = rfFuncs, # Ensure rfFuncs is appropriate for your model type
+  functions = rfFuncs, 
   method = "repeatedcv",
   repeats = 5,
   verbose = FALSE
 )
 
 # Perform recursive feature elimination
-# Ensure that rfFuncs is compatible with your model type (randomForest in this case)
 lmProfile <- rfe(
   x = trainData[, selected_features],
   y = as.factor(trainData$Sleep.Disorder),
