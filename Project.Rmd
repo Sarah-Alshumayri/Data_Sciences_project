@@ -97,7 +97,7 @@ Figure 1. Outcome variable
 
 ## Predictor Variables
 
-Predictor variables include 'Gender', 'Age', 'Occupation', 'Physical Activity Level', 'Stress Level', 'Quality of Sleep', 'BMI Category', and 'Daily Steps'.
+Predictor variables include 'Gender', 'Age', 'Physical Activity Level', 'Stress Level', 'Quality of Sleep', 'BMI Category', and 'Daily Steps'.
 
 These variables are measured through surveys or collected data from individuals health records
 The distribution of each predictor will be presented using descriptive statistics and visualizations. 
