@@ -58,4 +58,5 @@ A Shiny application developed in R for predicting sleep disorders. The app uses 
 - Run the app to start the server, and interact with the UI to predict sleep disorders.
 
 **Contact**
-For any queries or further information, please contact Samalshumayri`@effat`.edu.sa
+For any queries or further information, please contact © `<Sarah-Alshumayri>`, `<samalshumayri@gmail.com >`, and `<2023>`.
+
